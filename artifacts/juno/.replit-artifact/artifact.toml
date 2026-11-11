@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "JUNO"
+description = "JUNO is a bilingual business management workspace for planning, organizing, and growing projects, with dedicated space for business intelligence and digital marketing."
+version = "1.0.0"
+id = "artifacts/juno"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21993
+
+[services.development]
+run = "pnpm --filter @workspace/juno run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/juno", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/juno/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21993"
+BASE_PATH = "/"
